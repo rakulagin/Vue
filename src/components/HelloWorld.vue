@@ -1,32 +1,16 @@
 <template>
   <div class="hello">
     <h1>{{ msg }}</h1>
-    <p>
-      For a guide and recipes on how to configure / customize this project,<br>
-      check out the
-      <a href="https://cli.vuejs.org" target="_blank" rel="noopener">vue-cli documentation</a>.
-    </p>
-    <h3>Installed CLI Plugins</h3>
-    <ul>
-      <li><a href="https://github.com/vuejs/vue-cli/tree/dev/packages/%40vue/cli-plugin-babel" target="_blank" rel="noopener">babel</a></li>
-      <li><a href="https://github.com/vuejs/vue-cli/tree/dev/packages/%40vue/cli-plugin-eslint" target="_blank" rel="noopener">eslint</a></li>
-    </ul>
-    <h3>Essential Links</h3>
-    <ul>
-      <li><a href="https://vuejs.org" target="_blank" rel="noopener">Core Docs</a></li>
-      <li><a href="https://forum.vuejs.org" target="_blank" rel="noopener">Forum</a></li>
-      <li><a href="https://chat.vuejs.org" target="_blank" rel="noopener">Community Chat</a></li>
-      <li><a href="https://twitter.com/vuejs" target="_blank" rel="noopener">Twitter</a></li>
-      <li><a href="https://news.vuejs.org" target="_blank" rel="noopener">News</a></li>
-    </ul>
-    <h3>Ecosystem</h3>
-    <ul>
-      <li><a href="https://router.vuejs.org" target="_blank" rel="noopener">vue-router</a></li>
-      <li><a href="https://vuex.vuejs.org" target="_blank" rel="noopener">vuex</a></li>
-      <li><a href="https://github.com/vuejs/vue-devtools#vue-devtools" target="_blank" rel="noopener">vue-devtools</a></li>
-      <li><a href="https://vue-loader.vuejs.org" target="_blank" rel="noopener">vue-loader</a></li>
-      <li><a href="https://github.com/vuejs/awesome-vue" target="_blank" rel="noopener">awesome-vue</a></li>
-    </ul>
+    <input placeholder="x" v-model.number="x" >
+    <br>
+    <input placeholder="n" v-model.number="n">
+    <br>
+    <button @click="calc('sum')">x + n</button>
+    <button @click="calc('sub')">x - n</button>
+    <button @click="calc('multiply')">x * n</button>
+    <button @click="calc('div')">x / n</button>
+    <button @click="calc('exp')">x^n</button>
+    <p>{{ result }}</p>
   </div>
 </template>
 
@@ -35,8 +19,43 @@ export default {
   name: 'HelloWorld',
   props: {
     msg: String
+  },
+  data() {
+    return {
+      result: 0,
+      x: '',
+      n: ''
+    }
+  },
+  methods: {
+    // я не очень понял дз, может быть надо было сделать через Вью все операции на кнопках, но я решил так
+    // если неправильно - легко переделаю
+    // по моим меркам это самый короткий код, конструкция switch аналогична по длине, но мне она просто не нравится :)
+    // если не проверять на некорректные значения
+    calc(operation) {
+      if(!isNaN(this.x) && !isNaN(this.n)) { // проверка на некорректные значения
+        if (operation == 'sum') {
+          this.result = this.x+this.n
+        } else if (operation == 'sub') {
+          this.result = this.x-this.n
+        } else if (operation == 'multiply') {
+          this.result = this.x*this.n
+        } else if (operation == 'div') {
+          if (this.n) { // проверка на ноль
+            this.result = Math.ceil(this.x/this.n)
+          } else {
+            this.result = "Делить на ноль нельзя!"
+          }
+        } else if (operation == 'exp') {
+          return this.result = Math.pow(this.x,this.n)
+        }
+      } else {
+        this.result="Вы ввели не число";
+      }
+    }
   }
 }
+
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
