@@ -1,6 +1,7 @@
 <template>
   <div>
-    <button @click="showForm" >Add new cost</button>
+    <button  >Add new cost</button>
+<!--    @click="showForm"-->
   </div>
 </template>
 
@@ -8,9 +9,9 @@
 export default {
   name: "PaymentFormButton",
   methods: {
-    showForm() {
-      this.$emit('showHideForm')
-    }
+    // showForm() {
+    //   this.$emit('showHideForm')
+    // }
   }
 }
 </script>

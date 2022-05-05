@@ -1,10 +1,11 @@
 <template>
   <div id="app">
     <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld msg="My personal costs"/>
+    <HelloWorld msg="My personal costs 4"/>
+    <div>Total Price = {{getFullPaymentValue}}</div>
     <PaymentFormButton @showHideForm="ShowIt" />
-    <AddPaymentForm @addNewPayment="addPaymentData" v-if="showForm"/>
-    <PaymentsDisplay :items="paymentsList" />
+    <AddPaymentForm v-if="showForm"/>
+    <PaymentsDisplay :items="getPaymentsList" />
   </div>
 </template>
 
@@ -13,6 +14,7 @@ import HelloWorld from './components/HelloWorld.vue'
 import PaymentsDisplay from './components/PaymentsDisplay.vue'
 import AddPaymentForm from './components/AddPaymentForm.vue'
 import PaymentFormButton from './components/PaymentFormButton.vue'
+import { mapMutations, mapGetters, mapActions } from 'vuex'
 
 export default {
   name: 'App',
@@ -24,38 +26,50 @@ export default {
   },
   data() {
     return {
-      paymentsList: [],
-      showForm: false
+      showForm: true
     }
   },
+  computed: {
+    ...mapGetters(['getFullPaymentValue', 'getPaymentsList', 'getCategoryList']),
+  },
+  actions: {
+    ...mapActions(['fetchCategoryList'])
+  },
   methods: {
-    addPaymentData (data) {
-      this.paymentsList.push(data)
-    },
+    ...mapMutations([
+      'setPaymentsListData'
+    ]),
     ShowIt() {
       this.showForm = !this.showForm
     },
-    fetchData() {
-      return [
-        {
-          date: "28-03-2020",
-          category: "Food",
-          value: 169
-        },
-        {
-          date: "24-03-2020",
-          category: "Transport",
-          value: 300
-        },        {
-          date: "24-03-2020",
-          category: "Food",
-          value: 532
-        }
-      ]
-    }
+    // fetchData() {
+    //   return [
+    //     {
+    //       date: "28-03-2020",
+    //       category: "Food",
+    //       value: 169
+    //     },
+    //     {
+    //       date: "24-03-2020",
+    //       category: "Transport",
+    //       value: 300
+    //     },        {
+    //       date: "24-03-2020",
+    //       category: "Food",
+    //       value: 532
+    //     }
+    //   ]
+    // }
   },
   created () {
-    this.paymentsList = this.fetchData()
+    this.$store.dispatch('fetchData')
+    // this.$store.commit('setPaymentsListData', this.fetchData())
+  },
+  mounted() {
+    if (!this.getCategoryList.length) {
+      this.fetchCategoryList()
+    }
+
   }
 }
 
