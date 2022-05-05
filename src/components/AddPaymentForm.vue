@@ -2,7 +2,7 @@
   <div class="form-wrp" >
     <input v-model="date" />
     <select v-model="category">
-      <option v-for="(value, idx) in getCategoryList" :key="idx">{{value}}</option>
+      <option v-for="(value, idx) in CategoryList" :key="idx">{{value}}</option>
     </select>
 <!--    <input v-model="category" placeholder="category" />-->
     <input v-model.number="value" placeholder="value" />
