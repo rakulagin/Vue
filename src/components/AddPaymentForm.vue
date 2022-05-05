@@ -2,17 +2,14 @@
   <div class="form-wrp" >
     <input v-model="date" />
     <select v-model="category">
-      <option v-for="(value, idx) in CategoryList" :key="idx">{{value}}</option>
+      <option v-for="(value, idx) in categoryList" :key="idx">{{value}}</option>
     </select>
-<!--    <input v-model="category" placeholder="category" />-->
     <input v-model.number="value" placeholder="value" />
     <button @click="onClickSave">Save</button>
   </div>
 </template>
 
 <script>
-import {mapActions, mapGetters} from "vuex";
-
 export default {
   name: "AddPaymentForm",
   data() {
@@ -24,7 +21,6 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(['getCategoryList']),
     getCurrentDate() {
       const today = new Date()
       const d = today.getDate()
@@ -36,9 +32,6 @@ export default {
       return this.$store.getters.getCategoryList
     }
   },
-  actions: {
-    ...mapActions(["fetchCategoryList"])
-  },
   methods: {
     onClickSave() {
       const data = {
@@ -48,13 +41,10 @@ export default {
       }
       this.$store.commit('addDataToPaymentsList', data)
     },
-    created() {
-      this.$store.dispatch('fetchCategoryList')
-    },
-    mounted() {
-      this.fetchCategoryList()
-    }
-  }
+  },
+  created() {
+    this.$store.dispatch('fetchCategoryList')
+  },
 }
 </script>
 

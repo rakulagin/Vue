@@ -5,7 +5,9 @@
     <div>Total Price = {{getFullPaymentValue}}</div>
     <PaymentFormButton @showHideForm="ShowIt" />
     <AddPaymentForm v-if="showForm"/>
-    <PaymentsDisplay :items="getPaymentsList" />
+    <PaymentsDisplay :items="currentElements" />
+    <MyPagination :cur="cur" :length="12" :n="n" @changePage="changePage"/>
+<!--    :length="getPaymentsList.length"-->
   </div>
 </template>
 
@@ -15,26 +17,41 @@ import PaymentsDisplay from './components/PaymentsDisplay.vue'
 import AddPaymentForm from './components/AddPaymentForm.vue'
 import PaymentFormButton from './components/PaymentFormButton.vue'
 import { mapMutations, mapGetters, mapActions } from 'vuex'
+import MyPagination from "./components/MyPagination";
 
 export default {
   name: 'App',
   components: {
+    MyPagination,
     HelloWorld,
     PaymentsDisplay,
     PaymentFormButton,
     AddPaymentForm
   },
+
+
   data() {
     return {
-      showForm: true
+      cur: 1,
+      n: 3,
+      showForm: false
     }
   },
+
+
   computed: {
     ...mapGetters(['getFullPaymentValue', 'getPaymentsList', 'getCategoryList']),
+    currentElements() {
+      return this.getPaymentsList.slice(this.n * (this.cur - 1), this.n * (this.cur - 1) + this.n)
+    }
   },
+
+
   actions: {
     ...mapActions(['fetchCategoryList'])
   },
+
+
   methods: {
     ...mapMutations([
       'setPaymentsListData'
@@ -42,39 +59,19 @@ export default {
     ShowIt() {
       this.showForm = !this.showForm
     },
-    // fetchData() {
-    //   return [
-    //     {
-    //       date: "28-03-2020",
-    //       category: "Food",
-    //       value: 169
-    //     },
-    //     {
-    //       date: "24-03-2020",
-    //       category: "Transport",
-    //       value: 300
-    //     },        {
-    //       date: "24-03-2020",
-    //       category: "Food",
-    //       value: 532
-    //     }
-    //   ]
-    // }
-  },
-  created () {
-    this.$store.dispatch('fetchData')
-    // this.$store.commit('setPaymentsListData', this.fetchData())
-  },
-  mounted() {
-    if (!this.getCategoryList.length) {
-      this.fetchCategoryList()
+    changePage(p) {
+      this.$store.dispatch('fetchData', p)
+      this.cur = p
     }
+  },
 
-  }
+
+
+  created () {
+    this.$store.dispatch('fetchData', this.cur)
+    // this.$store.dispatch('fetchData')
+  },
 }
-
-
-
 </script>
 
 <style>

@@ -1,7 +1,7 @@
 <template>
  <div class="paymentList">
    <div class="paymentItem" v-for="(item, index) in items" :key="index">
-     {{ item.date }} {{ item.category }} {{ item.value }}
+     {{ item.id}} {{ item.date }} {{ item.category }} {{ item.value }}
    </div>
  </div>
 </template>
