@@ -45,6 +45,20 @@ export default {
   created() {
     this.$store.dispatch('fetchCategoryList')
   },
+  mounted() {
+    const {section, category} = this.$route.params
+    if(!section || !category) return
+    this.category = category
+    const {value} = this.$route.query
+    if(!value) return
+    this.value = value
+    if(this.value && this.category) {
+      this.onClickSave()
+          setTimeout(()=>{
+            this.$router.push('/dashboard/1')
+          }, 1000)
+    }
+  }
 }
 </script>
 
