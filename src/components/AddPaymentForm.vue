@@ -12,11 +12,15 @@
 <script>
 export default {
   name: "AddPaymentForm",
+  props: {
+    values: Object
+  },
   data() {
     return {
       date: '',
       category: '',
       value: '',
+      id: '',
       show: true
     }
   },
@@ -37,15 +41,34 @@ export default {
       const data = {
         date: this.date || this.getCurrentDate,
         category: this.category,
-        value: this.value
+        value: this.value,
+        id: this.id
       }
-      this.$store.commit('addDataToPaymentsList', data)
+      if(!this.id) { // проверка добавить или отредактировать по клику на save
+        this.$store.commit('addDataToPaymentsList', data)
+      } else {
+        this.$store.commit('editDataFromPaymentList', data)
+      }
     },
   },
+
   created() {
+    // заполнение списка категорий
     this.$store.dispatch('fetchCategoryList')
   },
+
   mounted() {
+    //реакция на эдит
+    if(this.values?.item) {
+      const {category, date, value, id} = this.values.item
+      this.value = value
+      this.date = date
+      this.category = category
+      this.id = id
+      return
+    }
+
+    // быстрые ссылки
     const {section, category} = this.$route.params
     if(!section || !category) return
     this.category = category
