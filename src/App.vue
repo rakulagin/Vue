@@ -1,10 +1,13 @@
 <template>
   <div id="app">
     <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld msg="My personal costs"/>
+    <HelloWorld msg="My personal costs 4"/>
+    <div>Total Price = {{getFullPaymentValue}}</div>
     <PaymentFormButton @showHideForm="ShowIt" />
-    <AddPaymentForm @addNewPayment="addPaymentData" v-if="showForm"/>
-    <PaymentsDisplay :items="paymentsList" />
+    <AddPaymentForm v-if="showForm"/>
+    <PaymentsDisplay :items="currentElements" />
+    <MyPagination :cur="cur" :length="12" :n="n" @changePage="changePage"/>
+<!--    :length="getPaymentsList.length"-->
   </div>
 </template>
 
@@ -13,54 +16,62 @@ import HelloWorld from './components/HelloWorld.vue'
 import PaymentsDisplay from './components/PaymentsDisplay.vue'
 import AddPaymentForm from './components/AddPaymentForm.vue'
 import PaymentFormButton from './components/PaymentFormButton.vue'
+import { mapMutations, mapGetters, mapActions } from 'vuex'
+import MyPagination from "./components/MyPagination";
 
 export default {
   name: 'App',
   components: {
+    MyPagination,
     HelloWorld,
     PaymentsDisplay,
     PaymentFormButton,
     AddPaymentForm
   },
+
+
   data() {
     return {
-      paymentsList: [],
+      cur: 1,
+      n: 3,
       showForm: false
     }
   },
+
+
+  computed: {
+    ...mapGetters(['getFullPaymentValue', 'getPaymentsList', 'getCategoryList']),
+    currentElements() {
+      return this.getPaymentsList.slice(this.n * (this.cur - 1), this.n * (this.cur - 1) + this.n)
+    }
+  },
+
+
+  actions: {
+    ...mapActions(['fetchCategoryList'])
+  },
+
+
   methods: {
-    addPaymentData (data) {
-      this.paymentsList.push(data)
-    },
+    ...mapMutations([
+      'setPaymentsListData'
+    ]),
     ShowIt() {
       this.showForm = !this.showForm
     },
-    fetchData() {
-      return [
-        {
-          date: "28-03-2020",
-          category: "Food",
-          value: 169
-        },
-        {
-          date: "24-03-2020",
-          category: "Transport",
-          value: 300
-        },        {
-          date: "24-03-2020",
-          category: "Food",
-          value: 532
-        }
-      ]
+    changePage(p) {
+      this.$store.dispatch('fetchData', p)
+      this.cur = p
     }
   },
+
+
+
   created () {
-    this.paymentsList = this.fetchData()
-  }
+    this.$store.dispatch('fetchData', this.cur)
+    // this.$store.dispatch('fetchData')
+  },
 }
-
-
-
 </script>
 
 <style>
