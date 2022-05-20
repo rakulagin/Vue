@@ -13,6 +13,7 @@
     <transition name="fade">
       <MyContextMenu />
     </transition>
+    <Calc/>
 
 
     <router-link :to="{name: 'AddPaymentForm', params: {section: 'payment', category: 'Food'}, query: {value: 200}}">Food 200</router-link> /
@@ -24,6 +25,7 @@
 <script>
 // import ModalWindowAddPaymentForm from "@/components/ModalWindowAddPaymentForm";
 import MyContextMenu from "@/components/MyContextMenu";
+import Calc from "@/components/Calc";
 export default {
   data () {
     return {
@@ -44,7 +46,7 @@ export default {
       this.modalShow = false
     }
   },
-  components: {MyContextMenu, ModalWindowAddPaymentForm: () => import('@/components/ModalWindowAddPaymentForm')},
+  components: {Calc, MyContextMenu, ModalWindowAddPaymentForm: () => import('@/components/ModalWindowAddPaymentForm')},
   mounted() {
     this.$modal.EventBus.$on('show', this.onShow)
     this.$modal.EventBus.$on('hide', this.onHide)
