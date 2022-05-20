@@ -1,7 +1,7 @@
 <template>
   <div>
     <img alt="Vue logo" src="../assets/logo.png">
-    <HelloWorld msg="My personal costs 6"/>
+    <HelloWorld msg="My personal costs 7"/>
     <div>Total Price = {{getFullPaymentValue}}</div>
 <!--    <PaymentFormButton @showHideForm="ShowIt" />-->
 <!--    <AddPaymentForm v-if="showForm"/>-->
