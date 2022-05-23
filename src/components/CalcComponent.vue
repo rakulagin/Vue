@@ -1,13 +1,11 @@
 <template>
-  <div>
-    <!--    инпут 1-->
-    <input placeholder="x" v-model.number="x">
+  <div class="calc">
+    <input v-model.number="x" placeholder="x" name="x">
     <br>
-    <!--    инпут 2-->
-    <input placeholder="n" v-model.number="n">
+    <input v-model.number="n" placeholder="n" name="n">
     <br>
-    <!--    кнопки операндов-->
-    <button v-for="operand in operands" @click="calc(operand)" :key="operand">
+    <!--    кнопки действий-->
+    <button v-for="operand in operands" :key="operand" :name="operand" @click="calc(operand)">
       {{ operand }}
     </button>
     <p>{{ result }}</p>
@@ -16,18 +14,20 @@
       <input type="checkbox" @click="show=!show">
       <span>Отобразиь экранную клавиатуру</span>
       <div v-show="show">
-        <button v-for="(btn, index) in buttons" :key="index" @click="mouseInput(btn)">
+        <button v-for="(btn, index) in buttons" :key="index" :name="btn" @click="mouseInput(btn)">
           {{ btn }}
         </button>
-        <button @click="backspase()">backspase</button>
+        <button name="bsp" @click="backspase()">backspase</button>
         <br>
         <!--        выбор операнда-->
-        <input type="radio" id="x" value="x" v-model="picked">
+        <input id="x" v-model="picked" type="radio" value="x">
         <label for="x">x</label>
 
-        <input type="radio" id="n" value="n" v-model="picked">
+        <input id="n" v-model="picked" type="radio" value="n">
         <label for="n">n</label>
-        <div v-if="picked"> Выбрана переменная {{ picked }}</div>
+        <div>
+          Выбрана переменная {{ picked }}
+        </div>
       </div>
     </div>
   </div>
@@ -35,7 +35,7 @@
 
 <script>
 export default {
-  name: "Calc",
+  name: "CalcComponent",
 
   data() {
     return {
@@ -44,7 +44,7 @@ export default {
       n: '',
       operands: ['+', '-', '*', '/', '^'],
       buttons: [0,1,2,3,4,5,6,7,8,9],
-      show: true,
+      show: false,
       picked: ''
 
     }
@@ -81,6 +81,7 @@ export default {
         let str = this.n.toString().concat(btn)
         this.n = Number(str)
       }
+      console.log(this.picked)
     },
 
     backspase() {
@@ -99,6 +100,11 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
+
+.calc {
+  margin-bottom: 30px;
+}
+
 h3 {
   margin: 40px 0 0;
 }

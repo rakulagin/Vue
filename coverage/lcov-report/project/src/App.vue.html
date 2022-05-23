@@ -137,7 +137,35 @@
 <a name='L72'></a><a href='#L72'>72</a>
 <a name='L73'></a><a href='#L73'>73</a>
 <a name='L74'></a><a href='#L74'>74</a>
-<a name='L75'></a><a href='#L75'>75</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<a name='L75'></a><a href='#L75'>75</a>
+<a name='L76'></a><a href='#L76'>76</a>
+<a name='L77'></a><a href='#L77'>77</a>
+<a name='L78'></a><a href='#L78'>78</a>
+<a name='L79'></a><a href='#L79'>79</a>
+<a name='L80'></a><a href='#L80'>80</a>
+<a name='L81'></a><a href='#L81'>81</a>
+<a name='L82'></a><a href='#L82'>82</a>
+<a name='L83'></a><a href='#L83'>83</a>
+<a name='L84'></a><a href='#L84'>84</a>
+<a name='L85'></a><a href='#L85'>85</a>
+<a name='L86'></a><a href='#L86'>86</a>
+<a name='L87'></a><a href='#L87'>87</a>
+<a name='L88'></a><a href='#L88'>88</a>
+<a name='L89'></a><a href='#L89'>89</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -214,23 +242,37 @@
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">&lt;template&gt;
   &lt;div id="app"&gt;
     &lt;nav&gt;
-&nbsp;
-      &lt;router-link :to="{name: 'Dashboard', params: {page: '1'} }"&gt;Dashboard&lt;/router-link&gt; /
-      &lt;router-link to="/about"&gt;About&lt;/router-link&gt; /
-      &lt;router-link to="/notfound"&gt;notfound&lt;/router-link&gt;
+      &lt;router-link :to="{name: 'Dashboard', params: {page: '1'} }"&gt;
+        Dashboard
+      &lt;/router-link&gt; /
+      &lt;router-link to="/about"&gt;
+        About
+      &lt;/router-link&gt; /
+      &lt;router-link to="/notfound"&gt;
+        notfound
+      &lt;/router-link&gt;
     &lt;/nav&gt;
     &lt;router-view /&gt;
     &lt;transition name="fade"&gt;
-      &lt;ModalWindowAddPaymentForm :settings="settings" v-if="modalShow"/&gt;
+      &lt;ModalWindowAddPaymentForm
+        v-if="modalShow"
+        :settings="settings"
+      /&gt;
     &lt;/transition&gt;
     &lt;transition name="fade"&gt;
       &lt;MyContextMenu /&gt;
     &lt;/transition&gt;
 &nbsp;
 &nbsp;
-    &lt;router-link :to="{name: 'AddPaymentForm', params: {section: 'payment', category: 'Food'}, query: {value: 200}}"&gt;Food 200&lt;/router-link&gt; /
-    &lt;router-link :to="{name: 'AddPaymentForm', params: {section: 'payment', category: 'Transport'}, query: {value: 500}}"&gt;Transport 500&lt;/router-link&gt; /
-    &lt;router-link :to="{name: 'AddPaymentForm', params: {section: 'payment', category: 'Entertainment'}, query: {value: 2000}}"&gt;Entertainment 2000&lt;/router-link&gt;
+    &lt;router-link :to="{name: 'AddPaymentForm', params: {section: 'payment', category: 'Food'}, query: {value: 200}}"&gt;
+      Food 200
+    &lt;/router-link&gt; /
+    &lt;router-link :to="{name: 'AddPaymentForm', params: {section: 'payment', category: 'Transport'}, query: {value: 500}}"&gt;
+      Transport 500
+    &lt;/router-link&gt; /
+    &lt;router-link :to="{name: 'AddPaymentForm', params: {section: 'payment', category: 'Entertainment'}, query: {value: 2000}}"&gt;
+      Entertainment 2000
+    &lt;/router-link&gt;
   &lt;/div&gt;
 &lt;/template&gt;
 &nbsp;
@@ -238,6 +280,7 @@
 // import ModalWindowAddPaymentForm from "@/components/ModalWindowAddPaymentForm";
 <span class="cstat-no" title="statement not covered" >import MyContextMenu from "@/components/MyContextMenu";</span>
 export default {
+  components: {MyContextMenu, ModalWindowAddPaymentForm: () =&gt; import('@/components/ModalWindowAddPaymentForm')},
   data () {
     return {
       modalShow: false,
@@ -245,6 +288,14 @@ export default {
 &nbsp;
       }
     }
+  },
+  mounted() {
+    this.$modal.EventBus.$on('show', this.onShow)
+    this.$modal.EventBus.$on('hide', this.onHide)
+  },
+  beforeUnmount() {
+    this.$modal.EventBus.$off('show', this.onShow)
+    this.$modal.EventBus.$off('hide', this.onHide)
   },
   methods: {
     onShow(data) {
@@ -256,15 +307,6 @@ export default {
       this.settings = {}
       this.modalShow = false
     }
-  },
-  components: {MyContextMenu, ModalWindowAddPaymentForm: () =&gt; import('@/components/ModalWindowAddPaymentForm')},
-  mounted() {
-    this.$modal.EventBus.$on('show', this.onShow)
-    this.$modal.EventBus.$on('hide', this.onHide)
-  },
-  beforeDestroy() {
-    this.$modal.EventBus.$off('show', this.onShow)
-    this.$modal.EventBus.$off('hide', this.onHide)
   }
 }
 &lt;/script&gt;
@@ -292,7 +334,7 @@ export default {
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at Fri May 20 2022 22:10:31 GMT+0400 (Samara Standard Time)
+                at Mon May 23 2022 20:42:34 GMT+0400 (Samara Standard Time)
             </div>
         <script src="../../prettify.js"></script>
         <script>

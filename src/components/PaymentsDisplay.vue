@@ -1,10 +1,17 @@
 <template>
- <div class="paymentList">
-   <div class="paymentItem" v-for="(item, index) in items" :key="index">
-     <span> {{ item }}</span>
-     <span class="cursor" @click="onContextMenuClick($event,item)">...</span>
-   </div>
- </div>
+  <div class="paymentList">
+    <div
+      v-for="(item, index) in items"
+      :key="index"
+      class="paymentItem"
+    >
+      <span> {{ item }}</span>
+      <span
+        class="cursor"
+        @click="onContextMenuClick($event,item)"
+      >...</span>
+    </div>
+  </div>
 </template>
 
 <script>

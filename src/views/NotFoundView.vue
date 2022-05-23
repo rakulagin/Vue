@@ -1,7 +1,9 @@
 <template>
   <div class="about">
     <h1>This is an not found page</h1>
-    <button @click="openModalAuthForm">Show/Hide</button>
+    <button @click="openModalAuthForm">
+      Show/Hide
+    </button>
   </div>
 </template>
 
