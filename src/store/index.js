@@ -11,31 +11,27 @@ export default new Vuex.Store({
   },
   mutations: {
     setPaymentsListData(state, payload) {
-      // const newUniqIdsObs = payload.filter((item) => {
-      //   return state.paymentsListIds.indexOf(item.id) < 0
-      // })
-      // const uniqIds = newUniqIdsObs.map((obj)=> obj.id)
-      // state.paymentsListIds.push(...uniqIds)
-      // state.paymentList.push(...newUniqIdsObs)
-      state.paymentList = payload
+      state.paymentList = payload //старый метод, исправил
+      // state.paymentList = [state.paymentList, ...payload]
     },
     addDataToPaymentsList(state, payload) {
       state.paymentList.push(payload)
     },
     setCategories(state, payload){
       state.categoryList = payload
+    },
+    removeItem(state, payload) {
+      const find = state.paymentList.find(item => item.id == payload)
+      const myIdx = state.paymentList.indexOf(find)
+      state.paymentList.splice(myIdx, 1)
+    },
+    editDataFromPaymentList(state, payload) {
+      const find = state.paymentList.find(item => item.id == payload.id)
+      const myIdx = state.paymentList.indexOf(find)
+      Vue.set(state.paymentList, myIdx, payload)
     }
   },
   actions: {
-    // fetchData({commit}, page) {
-    //   return new Promise((resolve)=>{
-    //     setTimeout(()=>{
-    //       const items = localDB[`page${page}`]
-    //       resolve(items)
-    //     }, 1000)
-    //   }).then((res)=> commit('setPaymentsListData', res))
-    // },
-
     fetchData({commit}) {
       return new Promise((resolve)=>{
         setTimeout(()=>{
@@ -44,8 +40,10 @@ export default new Vuex.Store({
             items.push({
               date: "01.05.2022",
               category: "Sport",
-              value: i,
-              id: Math.floor(Math.random()* Math.floor(Math.random() * Date.now()) +i)
+              value: Math.floor(Math.random() * 300),
+              id: i
+              // value: i+1,
+              // id: Math.floor(Math.random()* Math.floor(Math.random() * Date.now()) +i)
             })
           } resolve(items)
         },2000)
@@ -56,7 +54,7 @@ export default new Vuex.Store({
     fetchCategoryList({commit}) {
       return new Promise((resolve)=> {
         setTimeout(()=>{
-          resolve (['Food', 'Transport', 'Education', 'Entertainment'])
+          resolve (['Food', 'Transport', 'Education', 'Entertainment', 'Sport'])
         },1000)
       }).then(res => {
         commit("setCategories", res)

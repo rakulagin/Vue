@@ -1,9 +1,9 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 
-import HomeView from '../views/HomeView.vue'
-import AboutView from '../views/About/AboutView.vue'
-import NotFoundView from "@/views/NotFoundView";
+// import HomeView from '../views/HomeView.vue'
+// import AboutView from '../views/About/AboutView.vue'
+// import NotFoundView from "@/views/NotFoundView";
 import AddPaymentForm from "@/components/AddPaymentForm";
 
 Vue.use(Router)
@@ -20,12 +20,14 @@ const routes = [
     {
         path: "/dashboard/:page/",
         name: "Dashboard",
-        component: HomeView ,
+        component: () => import('../views/HomeView.vue')
+        // component: HomeView ,
     },
     {
         path: "/about",
         name: "About",
-        component: AboutView
+        component: () => import('../views/About/AboutView.vue')
+        // component: AboutView
     },
     {
         path: "/add/:section/:category",
@@ -35,7 +37,8 @@ const routes = [
     {
         path: "/notfound",
         name: "NotFound",
-        component: NotFoundView
+        component: () => import("@/views/NotFoundView")
+        // component: NotFoundView
     },
     {
         path: "*",

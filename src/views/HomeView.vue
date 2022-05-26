@@ -1,10 +1,12 @@
 <template>
   <div>
     <img alt="Vue logo" src="../assets/logo.png">
-    <HelloWorld msg="My personal costs"/>
+    <HelloWorld msg="My personal costs 6"/>
     <div>Total Price = {{getFullPaymentValue}}</div>
-    <PaymentFormButton @showHideForm="ShowIt" />
-    <AddPaymentForm v-if="showForm"/>
+<!--    <PaymentFormButton @showHideForm="ShowIt" />-->
+<!--    <AddPaymentForm v-if="showForm"/>-->
+<!--    <ModalWindowAddPaymentForm @close="addShowForm = false" v-if="addShowForm"/>-->
+    <button @click="openModalForm">Show/Hide</button>
     <PaymentsDisplay :items="currentElements" />
     <MyPagination :cur="cur" :length="getPaymentsList.length" :n="n" @changePage="changePage"/>
   </div>
@@ -13,19 +15,21 @@
 <script>
 import HelloWorld from "@/components/HelloWorld";
 import PaymentsDisplay from "@/components/PaymentsDisplay";
-import AddPaymentForm from "@/components/AddPaymentForm";
-import PaymentFormButton from "@/components/PaymentFormButton";
+// import AddPaymentForm from "@/components/AddPaymentForm";
+// import PaymentFormButton from "@/components/PaymentFormButton";
 import MyPagination from "@/components/MyPagination";
 import {mapMutations, mapGetters, mapActions} from 'vuex'
+// import ModalWindowAddPaymentForm from "@/components/ModalWindowAddPaymentForm";
 
 export default {
   name: 'App',
   components: {
+    // ModalWindowAddPaymentForm,
     MyPagination,
     HelloWorld,
     PaymentsDisplay,
-    PaymentFormButton,
-    AddPaymentForm
+    // PaymentFormButton,
+    // AddPaymentForm
   },
 
 
@@ -33,7 +37,8 @@ export default {
     return {
       cur: 1,
       n: 5,
-      showForm: false
+      showForm: false,
+      addShowForm: false
     }
   },
 
@@ -55,17 +60,24 @@ export default {
     ...mapMutations([
       'setPaymentsListData'
     ]),
-    ShowIt() {
-      this.showForm = !this.showForm
-    },
+    // ShowIt() {
+    //   this.showForm = !this.showForm
+    // },
     changePage(p) {
       // this.$store.dispatch('fetchData', p)
       this.cur = p
-    }
+    },
+    openModalForm() {
+      this.$modal.show('addform', {title: "Add New Payment", component: "AddPaymentForm"})
+    },
   },
 
   created () {
-    // this.$store.dispatch('fetchData', this.cur)
+    // новый вариант, теперь стор не грузится автоматически, но и новые данные добавленные через ссылку не удаляются
+    // if(!this.$store.state) {
+    //   this.$store.dispatch('fetchData')
+    // }
+    // старый вариант
     this.$store.dispatch('fetchData')
   },
   mounted() {
