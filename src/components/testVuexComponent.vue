@@ -1,14 +1,19 @@
 <template>
   <div>
-    <input v-model="value" type="text">
-    <button @click="onSave">Save</button>
+    <input
+      v-model="value"
+      type="text"
+    >
+    <button @click="onSave">
+      Save
+    </button>
   </div>
 </template>
 
 <script>
 import { mapActions } from "vuex";
 export default {
-  name: "testVuexComponent",
+  name: "TestVuexComponent",
   data() {
     return {
       value: ''

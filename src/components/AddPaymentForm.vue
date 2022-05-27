@@ -1,22 +1,16 @@
 <template>
-  <div class="form-wrp">
-    <input v-model="date">
-    <select v-model="category">
-      <option
-        v-for="(value, idx) in categoryList"
-        :key="idx"
-      >
-        {{ value }}
-      </option>
-    </select>
-    <input
-      v-model.number="value"
-      placeholder="value"
-    >
-    <button @click="onClickSave">
-      Save
-    </button>
-  </div>
+  <v-card class="pa-8">
+    <v-text-field v-model="date" type="date" label="Date"/>
+    <v-text-field v-model="value" label="Value"/>
+    <v-select v-model="category" :items="categoryList" label="Category"/>
+    <v-btn color="teal" dark @click="onClickSave">Save</v-btn>
+<!--      <input v-model="date" placeholder="date">-->
+<!--      <select v-model="category">-->
+<!--        <option v-for="(value, idx) in categoryList" :key="idx">{{ value }}</option>-->
+<!--      </select>-->
+<!--      <input v-model.number="value" placeholder="value">-->
+<!--      <button @click="onClickSave">Save</button>-->
+  </v-card>
 </template>
 
 <script>

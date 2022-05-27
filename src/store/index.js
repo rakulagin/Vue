@@ -7,6 +7,7 @@ export default new Vuex.Store({
   state: {
     paymentList: [],
     categoryList: [],
+
     // paymentsListIds: [],
   },
   mutations: {
@@ -36,10 +37,12 @@ export default new Vuex.Store({
       return new Promise((resolve)=>{
         setTimeout(()=>{
           const items = []
+          const preListOfCat = ['Food', 'Transport', 'Education', 'Entertainment', 'Sport']
           for(let i=1; i<=15; i++) {
             items.push({
               date: "01.05.2022",
-              category: "Sport",
+              // category: "Sport",
+              category: preListOfCat[Math.floor(Math.random() * 5)],
               value: Math.floor(Math.random() * 300),
               id: i
               // value: i+1,
