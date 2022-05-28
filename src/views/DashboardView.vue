@@ -2,11 +2,16 @@
   <v-container>
     <v-row>
       <v-col>
-        <div class="text-h5 text-sm-h3 pb-3">My personal costs</div>
-        <v-dialog v-model="dialog" width="500">
+        <div class="text-h5 text-sm-h3 pb-3">
+          My personal costs
+        </div>
+        <v-dialog v-model="dialog"
+                  width="500">
 
           <template v-slot:activator="{ on }">
-            <v-btn color="teal" dark v-on="on">
+            <v-btn color="teal"
+                   dark
+                   v-on="on">
               ADD NEW COST<v-icon>mdi-plus</v-icon>
             </v-btn>
           </template>
@@ -15,13 +20,15 @@
             <AddPaymentForm />
           </v-card>
         </v-dialog>
-        <PaymentsDisplay :items="currentElements"/>
-        <MyPagination :cur="cur" :length="getPaymentsList.length" :n="n" @changePage="changePage"/>
+        <PaymentsDisplay :items="currentElements" />
+        <MyPagination :cur="cur"
+                      :length="getPaymentsList.length"
+                      :n="n"
+                      @changePage="changePage" />
       </v-col>
 
-<!--        правый столбец-->
-
       <v-col>
+        <PieChart />
         <PaymentDiagram />
       </v-col>
     </v-row>
@@ -34,14 +41,17 @@ import AddPaymentForm from "@/components/AddPaymentForm";
 import MyPagination from "@/components/MyPagination";
 import PaymentDiagram from "@/components/PaymentDiagram";
 import {mapGetters} from 'vuex'
+import PieChart from "@/components/Pie";
+
 
 export default {
   name: "DashboardView",
   components: {
+    PieChart,
     PaymentDiagram,
     AddPaymentForm,
     PaymentsDisplay,
-    MyPagination
+    MyPagination,
 
   },
   data() {
@@ -58,15 +68,14 @@ export default {
       return this.$store.getters.getPaymentsList.slice(this.n * (this.cur - 1), this.n * (this.cur - 1) + this.n)
     }
   },
+  mounted() {
+    this.$store.dispatch("fetchData")
+  },
 
   methods: {
     changePage(p) {
       this.cur = p
     },
   },
-
-  async mounted() {
-    await this.$store.dispatch("fetchData")
-  }
 }
 </script>
