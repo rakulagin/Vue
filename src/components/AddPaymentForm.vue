@@ -50,7 +50,7 @@ export default {
     //реакция на эдит
     if(this.values?.item) {
       const {category, date, value, id} = this.values.item
-      this.value = value
+      this.value = +value
       this.date = date
       this.category = category
       this.id = id
@@ -76,7 +76,7 @@ export default {
       const data = {
         date: this.date || this.getCurrentDate,
         category: this.category,
-        value: this.value,
+        value: +this.value,
         id: this.id
       }
       if(!this.id) { // проверка добавить или отредактировать по клику на save

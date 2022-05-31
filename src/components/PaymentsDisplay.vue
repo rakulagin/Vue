@@ -20,48 +20,26 @@
           </template>
           <v-list width="150">
             <v-list-item @click="editItem(item)">
-              Edit
+              <v-dialog v-model="dialog"
+                        width="500">
+
+                <template v-slot:activator="{ on }">
+                  <span v-on="on">Edit</span>
+                </template>
+
+                <v-card>
+                  <AddPaymentForm />
+                </v-card>
+              </v-dialog>
             </v-list-item>
             <v-list-item @click="deleteItem(item.id)">
               Delete
               <MyContextMenu />
             </v-list-item>
-
-<!--            <v-list-item v-for="(item, i) in items" :key="i" @click="() => {}">-->
-<!--              <v-list-item-title>{{ item.text }}</v-list-item-title>-->
-<!--            </v-list-item>-->
           </v-list>
         </v-menu>
       </v-col>
-
-
-<!--      <v-col>-->
-<!--        <v-dialog v-model="dialog" width="500">-->
-<!--          <template v-slot:activator="{ on }">-->
-<!--            <v-icon v-on="on" @click="onContextMenuClick($event,item)">mdi-dots-vertical</v-icon>-->
-<!--          </template>-->
-<!--          <v-card>-->
-<!--            <MyContextMenu />-->
-<!--          </v-card>-->
-<!--        </v-dialog>-->
-<!--      </v-col>-->
-<!--      <v-col :cols="2"><v-icon @click="onContextMenuClick($event,item)">mdi-dots-vertical</v-icon></v-col>-->
     </v-row>
-
-
-<!--    <div class="paymentList">-->
-<!--      <div-->
-<!--          v-for="(item, index) in items"-->
-<!--          :key="index"-->
-<!--          class="paymentItem"-->
-<!--      >-->
-<!--        <span> {{ item }}</span>-->
-<!--        <span-->
-<!--            class="cursor"-->
-<!--            @click="onContextMenuClick($event,item)"-->
-<!--        >...</span>-->
-<!--      </div>-->
-<!--    </div>-->
   </v-container>
 </template>
 
@@ -69,9 +47,10 @@
 
 <script>
 import MyContextMenu from "@/components/MyContextMenu";
+import AddPaymentForm from "@/components/AddPaymentForm";
 export default {
   name: "PaymentsDisplay",
-  components: {MyContextMenu},
+  components: {MyContextMenu, AddPaymentForm},
   data() {
     return {
       dialog: false
@@ -96,11 +75,11 @@ export default {
       this.$contextMenu.show({event, items})
     },
     editItem(item) {
-      this.$modal.show('addform', {title: "Add New Payment", component: "AddPaymentForm", props: {
-        item
-        }})
+      // this.$modal.show('addform', {title: "Add New Payment", component: "AddPaymentForm", props: {
+      //   item
+      //   }})
       console.log('edit', item)
-      this.$contextMenu.hide()
+      // this.$contextMenu.hide()
     },
     deleteItem(item) {
       this.$store.commit('removeItem', item)

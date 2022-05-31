@@ -1,6 +1,5 @@
 <template>
   <div>
-    <v-btn @click="showDiagram()">1221</v-btn>
     <Pie
         :chart-options="chartOptions"
         :chart-data="chartData"
@@ -67,14 +66,13 @@ export default {
   },
   data() {
     return {
+      newData: {},
       chartData: {
-        labels: ['VueJs', 'EmberJs', 'ReactJs', 'AngularJs'],
-        // labels: [],
+        labels: [],
         datasets: [
           {
             backgroundColor: ['#41B883', '#E46651', '#00D8FF', '#DD1B16', '#9ACD32'],
-            data: [40, 20, 80, 10, 5]
-            // data: []
+            data: []
           }
         ]
       },
@@ -86,56 +84,35 @@ export default {
   },
 
   computed:{
-    uniqCategory () {
-      return this.$store.getters.getUniqCategory
-    },
+    paymentsList () {
+      return this.$store.getters.getPaymentsList
+    }
 
   },
 
   watch: {
-    uniqCategory: function() {
-      this.chartData.labels = this.$store.getters.getUniqCategory
+
+    paymentsList: function() {
+      // получаем наш список всех покупок
+      const allPaymentsList = this.$store.getters.getPaymentsList
+
+      // получаем список уникальных категорий
+      const uniqCategories = Object.fromEntries(allPaymentsList.map(item => [item.category, 0]))
+
+      // заполняем сумму затрат по категориям
+      allPaymentsList.forEach((item => {uniqCategories[item.category] += item.value}))
+
+      // обнуляем то что было в диаграмме (если не обнулить, то все задублится)
+      this.chartData.labels = []
+      this.chartData.datasets[0].data = []
+
+      // наполняем диаграмму данными
+      for(let category in uniqCategories) {
+        this.chartData.labels.push(category)
+        this.chartData.datasets[0].data.push(uniqCategories[category])
+      }
+
     }
   },
-
-
-  // let res = Object.fromEntries(set.map(item => [item.category, 0]));
-  // set.forEach(item => {res[item.category] += item.value})
-// вешайте вотчер на геттер оборачивайте его в компудет и вперед
-
-
-
-  methods: {
-    showDiagram() {
-
-      console.log(this.$store.getters.getCategoryList)
-
-      // const piePaymentsList = this.$store.getters.getPaymentsList
-      // const paymentsForCategory = new Set(piePaymentsList.map((cat) => cat.category));
-      // paymentsForCategory.forEach((category => {
-      //   this.chartData.labels.push(category)
-      // }))
-      //
-      // const sortPaymentsList = []
-      // paymentsForCategory.forEach((cat) => {
-      //   sortPaymentsList.push(piePaymentsList.filter((el) => el.category === cat));
-      // });
-      // sortPaymentsList.forEach((item)=>{
-      //   const valueOfCategory = Number(item.reduce((res,cur) => res+ cur.value, 0))
-      //   console.log(valueOfCategory)
-      //   this.chartData.datasets[0].data.push(valueOfCategory)
-      // })
-    }
-  },
-
-
-
-
-
-
-
-
-
-
 }
 </script>
