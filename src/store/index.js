@@ -62,13 +62,29 @@ export default new Vuex.Store({
       }).then(res => {
         commit("setCategories", res)
       })
-    }
+    },
+
+
+
+
+
   },
   getters : {
     getPaymentsList: state => state.paymentList,
     getFullPaymentValue: state => {
       return state.paymentList.reduce((res,cur) => res+ cur.value, 0)
     },
-    getCategoryList: state => state.categoryList
+    getCategoryList: state => state.categoryList,
+
+    getUniqCategory: state => {
+      return Array.from(new Set(state.paymentList.map((cat) => cat.category)))
+    },
+
+    // getNewList: state => {
+    //   return Object.fromEntries(state.paymentList.map(item => [item.category, 0]))
+    // },
   }
 })
+
+// let res = Object.fromEntries(set.map(item => [item.category, 0]));
+// set.forEach(item => {res[item.category] += item.value})

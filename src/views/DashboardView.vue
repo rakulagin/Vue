@@ -29,17 +29,16 @@
 
       <v-col>
         <PieChart />
-        <PaymentDiagram />
       </v-col>
     </v-row>
   </v-container>
+
 </template>
 
 <script>
 import PaymentsDisplay from "@/components/PaymentsDisplay";
 import AddPaymentForm from "@/components/AddPaymentForm";
 import MyPagination from "@/components/MyPagination";
-import PaymentDiagram from "@/components/PaymentDiagram";
 import {mapGetters} from 'vuex'
 import PieChart from "@/components/Pie";
 
@@ -48,7 +47,6 @@ export default {
   name: "DashboardView",
   components: {
     PieChart,
-    PaymentDiagram,
     AddPaymentForm,
     PaymentsDisplay,
     MyPagination,

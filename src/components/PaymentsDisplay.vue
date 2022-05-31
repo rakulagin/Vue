@@ -22,7 +22,7 @@
             <v-list-item @click="editItem(item)">
               Edit
             </v-list-item>
-            <v-list-item @click="deleteItem(item)">
+            <v-list-item @click="deleteItem(item.id)">
               Delete
               <MyContextMenu />
             </v-list-item>
@@ -85,8 +85,6 @@ export default {
   },
   methods: {
     onContextMenuClick(event,item) {
-      console.log(item.id)
-
       const items = [
         {
           text: "Edit", action: () => {this.editItem(item)}
@@ -106,7 +104,7 @@ export default {
     },
     deleteItem(item) {
       this.$store.commit('removeItem', item)
-      this.$contextMenu.hide()
+      // this.$contextMenu.hide()
     }
 
   }
