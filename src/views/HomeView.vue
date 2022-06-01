@@ -1,14 +1,24 @@
 <template>
   <div>
-    <img alt="Vue logo" src="../assets/logo.png">
-    <HelloWorld msg="My personal costs 6"/>
-    <div>Total Price = {{getFullPaymentValue}}</div>
-<!--    <PaymentFormButton @showHideForm="ShowIt" />-->
-<!--    <AddPaymentForm v-if="showForm"/>-->
-<!--    <ModalWindowAddPaymentForm @close="addShowForm = false" v-if="addShowForm"/>-->
-    <button @click="openModalForm">Show/Hide</button>
+    <img
+      alt="Vue logo"
+      src="../assets/logo.png"
+    >
+    <HelloWorld msg="My personal costs 7" />
+    <div>Total Price = {{ getFullPaymentValue }}</div>
+    <!--    <PaymentFormButton @showHideForm="ShowIt" />-->
+    <!--    <AddPaymentForm v-if="showForm"/>-->
+    <!--    <ModalWindowAddPaymentForm @close="addShowForm = false" v-if="addShowForm"/>-->
+    <button @click="openModalForm">
+      Show/Hide
+    </button>
     <PaymentsDisplay :items="currentElements" />
-    <MyPagination :cur="cur" :length="getPaymentsList.length" :n="n" @changePage="changePage"/>
+    <MyPagination
+      :cur="cur"
+      :length="getPaymentsList.length"
+      :n="n"
+      @changePage="changePage"
+    />
   </div>
 </template>
 

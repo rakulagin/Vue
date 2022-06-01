@@ -1,13 +1,19 @@
 <template>
   <div :class="[$style.wrp]">
-    <div @click="onClick(cur - 1)">-</div>
-    <div v-for="i in amount"
-         :key="i"
-         :class="{[$style.active]: cur === i}"
-          @click="onClick(i)"
-    >{{ i }}
+    <div @click="onClick(cur - 1)">
+      -
     </div>
-    <div @click="onClick(cur + 1)">+</div>
+    <div
+      v-for="i in amount"
+      :key="i"
+      :class="{[$style.active]: cur === i}"
+      @click="onClick(i)"
+    >
+      {{ i }}
+    </div>
+    <div @click="onClick(cur + 1)">
+      +
+    </div>
   </div>
 </template>
 
@@ -35,7 +41,7 @@ export default {
 }
 </script>
 
-<style module >
+<style module>
 .wrp {
   display: flex;
   justify-content: center;

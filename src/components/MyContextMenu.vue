@@ -1,6 +1,15 @@
 <template>
-  <div class="context" v-if="shown" :style="styles">
-    <div v-for="item in items" :key="item.text" class="context__item" @click="onClick(item)">
+  <div
+    v-if="shown"
+    class="context"
+    :style="styles"
+  >
+    <div
+      v-for="item in items"
+      :key="item.text"
+      class="context__item"
+      @click="onClick(item)"
+    >
       {{ item.text }}
     </div>
   </div>
@@ -27,6 +36,15 @@ export default {
     }
   },
 
+  mounted() {
+    this.$contextMenu.EventBus.$on('show', this.onShow)
+    this.$contextMenu.EventBus.$on('hide', this.onHide)
+  },
+  beforeUnmount() {
+    this.$contextMenu.EventBus.$off('show', this.onShow)
+    this.$contextMenu.EventBus.$off('hide', this.onHide)
+  },
+
   methods: {
     onClick(item) {
       item.action()
@@ -45,15 +63,6 @@ export default {
       this.xPos = pos.left
       this.yPos = pos.top
     }
-  },
-
-  mounted() {
-    this.$contextMenu.EventBus.$on('show', this.onShow)
-    this.$contextMenu.EventBus.$on('hide', this.onHide)
-  },
-  beforeDestroy() {
-    this.$contextMenu.EventBus.$off('show', this.onShow)
-    this.$contextMenu.EventBus.$off('hide', this.onHide)
   }
 }
 </script>

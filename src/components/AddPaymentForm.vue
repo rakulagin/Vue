@@ -1,11 +1,21 @@
 <template>
-  <div class="form-wrp" >
-    <input v-model="date" />
+  <div class="form-wrp">
+    <input v-model="date">
     <select v-model="category">
-      <option v-for="(value, idx) in categoryList" :key="idx">{{value}}</option>
+      <option
+        v-for="(value, idx) in categoryList"
+        :key="idx"
+      >
+        {{ value }}
+      </option>
     </select>
-    <input v-model.number="value" placeholder="value" />
-    <button @click="onClickSave">Save</button>
+    <input
+      v-model.number="value"
+      placeholder="value"
+    >
+    <button @click="onClickSave">
+      Save
+    </button>
   </div>
 </template>
 
@@ -35,21 +45,6 @@ export default {
     categoryList(){
       return this.$store.getters.getCategoryList
     }
-  },
-  methods: {
-    onClickSave() {
-      const data = {
-        date: this.date || this.getCurrentDate,
-        category: this.category,
-        value: this.value,
-        id: this.id
-      }
-      if(!this.id) { // проверка добавить или отредактировать по клику на save
-        this.$store.commit('addDataToPaymentsList', data)
-      } else {
-        this.$store.commit('editDataFromPaymentList', data)
-      }
-    },
   },
 
   created() {
@@ -81,6 +76,21 @@ export default {
             this.$router.push('/dashboard/1')
           }, 1000)
     }
+  },
+  methods: {
+    onClickSave() {
+      const data = {
+        date: this.date || this.getCurrentDate,
+        category: this.category,
+        value: this.value,
+        id: this.id
+      }
+      if(!this.id) { // проверка добавить или отредактировать по клику на save
+        this.$store.commit('addDataToPaymentsList', data)
+      } else {
+        this.$store.commit('editDataFromPaymentList', data)
+      }
+    },
   }
 }
 </script>

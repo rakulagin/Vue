@@ -1,13 +1,20 @@
 <template>
   <div class="wrapper">
-    <div class="header">{{ settings.title }}</div>
+    <div class="header">
+      {{ settings.title }}
+    </div>
     <div class="content">
-<!--      <AddPaymentForm v-if="settings.component === 'addform'"/>-->
-<!--      <AuthForm v-if="settings.component === 'auth'"/>-->
-      <component :is="settings.component" :values="settings.props"/>
+      <!--      <AddPaymentForm v-if="settings.component === 'addform'"/>-->
+      <!--      <AuthForm v-if="settings.component === 'auth'"/>-->
+      <component
+        :is="settings.component"
+        :values="settings.props"
+      />
     </div>
     <div class="footer">
-      <button @click="onCloseClick">Close</button>
+      <button @click="onCloseClick">
+        Close
+      </button>
     </div>
   </div>
 </template>
