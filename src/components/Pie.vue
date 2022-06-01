@@ -103,16 +103,26 @@ export default {
       allPaymentsList.forEach((item => {uniqCategories[item.category] += item.value}))
 
       // обнуляем то что было в диаграмме (если не обнулить, то все задублится)
+      this.reInitData()
+
+      // наполняем диаграмму данными.
+      this.fillData(uniqCategories)
+
+    }
+  },
+
+  methods: {
+    reInitData() {
       this.chartData.labels = []
       this.chartData.datasets[0].data = []
+    },
 
-      // наполняем диаграмму данными
+    fillData(uniqCategories) {
       for(let category in uniqCategories) {
         this.chartData.labels.push(category)
         this.chartData.datasets[0].data.push(uniqCategories[category])
       }
-
     }
-  },
+  }
 }
 </script>
