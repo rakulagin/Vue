@@ -7,6 +7,7 @@ export default new Vuex.Store({
   state: {
     paymentList: [],
     categoryList: [],
+
     // paymentsListIds: [],
   },
   mutations: {
@@ -26,7 +27,7 @@ export default new Vuex.Store({
       state.paymentList.splice(myIdx, 1)
     },
     editDataFromPaymentList(state, payload) {
-      const find = state.paymentList.find(item => item.id == payload.id)
+      const find = state.paymentList.find(item => item.id === payload.id)
       const myIdx = state.paymentList.indexOf(find)
       Vue.set(state.paymentList, myIdx, payload)
     }
@@ -36,14 +37,13 @@ export default new Vuex.Store({
       return new Promise((resolve)=>{
         setTimeout(()=>{
           const items = []
+          const preListOfCat = ['Food', 'Transport', 'Education', 'Entertainment', 'Sport']
           for(let i=1; i<=15; i++) {
             items.push({
               date: "01.05.2022",
-              category: "Sport",
+              category: preListOfCat[Math.floor(Math.random() * 5)],
               value: Math.floor(Math.random() * 300),
               id: i
-              // value: i+1,
-              // id: Math.floor(Math.random()* Math.floor(Math.random() * Date.now()) +i)
             })
           } resolve(items)
         },2000)
@@ -59,13 +59,18 @@ export default new Vuex.Store({
       }).then(res => {
         commit("setCategories", res)
       })
-    }
+    },
+
+
+
+
+
   },
   getters : {
     getPaymentsList: state => state.paymentList,
     getFullPaymentValue: state => {
       return state.paymentList.reduce((res,cur) => res+ cur.value, 0)
     },
-    getCategoryList: state => state.categoryList
+    getCategoryList: state => state.categoryList,
   }
 })

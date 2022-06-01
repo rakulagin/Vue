@@ -1,29 +1,65 @@
 <template>
   <div class="calc">
-    <input v-model.number="x" placeholder="x" name="x">
+    <input
+      v-model.number="x"
+      placeholder="x"
+      name="x"
+    >
     <br>
-    <input v-model.number="n" placeholder="n" name="n">
+    <input
+      v-model.number="n"
+      placeholder="n"
+      name="n"
+    >
     <br>
     <!--    кнопки действий-->
-    <button v-for="operand in operands" :key="operand" :name="operand" @click="calc(operand)">
+    <button
+      v-for="operand in operands"
+      :key="operand"
+      :name="operand"
+      @click="calc(operand)"
+    >
       {{ operand }}
     </button>
     <p>{{ result }}</p>
     <div>
       <!--      показать/скрыть экранную клавиатуру-->
-      <input type="checkbox" @click="show=!show">
+      <input
+        type="checkbox"
+        @click="show=!show"
+      >
       <span>Отобразиь экранную клавиатуру</span>
       <div v-show="show">
-        <button v-for="(btn, index) in buttons" :key="index" :name="btn" @click="mouseInput(btn)">
+        <button
+          v-for="(btn, index) in buttons"
+          :key="index"
+          :name="btn"
+          @click="mouseInput(btn)"
+        >
           {{ btn }}
         </button>
-        <button name="bsp" @click="backspase()">backspase</button>
+        <button
+          name="bsp"
+          @click="backspase()"
+        >
+          backspase
+        </button>
         <br>
         <!--        выбор операнда-->
-        <input id="x" v-model="picked" type="radio" value="x">
+        <input
+          id="x"
+          v-model="picked"
+          type="radio"
+          value="x"
+        >
         <label for="x">x</label>
 
-        <input id="n" v-model="picked" type="radio" value="n">
+        <input
+          id="n"
+          v-model="picked"
+          type="radio"
+          value="n"
+        >
         <label for="n">n</label>
         <div>
           Выбрана переменная {{ picked }}
